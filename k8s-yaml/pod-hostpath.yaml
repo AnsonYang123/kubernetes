@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-volume
+  namespace: default
+  labels:
+    app: testing
+spec:
+  containers:
+  - name: reader
+    image: busybox
+    imagePullPolicy: IfNotPresent
+    volumeMounts:
+    - mountPath: /root/training-sample
+      name: share-volume
+    args:
+    - /bin/sh
+    - -c
+    - cat /root/training-sample/hello; sleep 30000
+  restartPolicy: Always
+  volumes:
+  - hostPath:
+      path: /root/training-sample
+    name: share-volume
